@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance Calendar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Attendance Calendar - {{ month_name }} {{ year }}</h1>
+
+    <!-- Month & Year Selector -->
+    <form method="get" action="{{ url_for('attendance') }}" class="selector-form">
+        <label for="month">Month:</label>
+        <select name="month" id="month">
+            {% for i in range(1, 13) %}
+            <option value="{{ i }}" {% if i == month %}selected{% endif %}>{{ calendar.month_name[i] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="year">Year:</label>
+        <select name="year" id="year">
+            {% for y in range(current_year - 5, current_year + 1) %}
+            <option value="{{ y }}" {% if y == year %}selected{% endif %}>{{ y }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Go</button>
+    </form>
+
+    <!-- Main Layout: Calendar + Summary -->
+    <div class="calendar-container">
+        <!-- Attendance Calendar -->
+        <div class="calendar-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sun</th><th>Mon</th><th>Tue</th>
+                        <th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in calendar_data %}
+                    <tr>
+                        {% for day in week %}
+                        {% if day %}
+                        <td class="{{ day.status|lower }}">
+                            <div class="date">{{ day.date.day }}</div>
+                            <div class="status">{{ day.status }}</div>
+                        </td>
+                        {% else %}
+                        <td class="empty"></td>
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Summary Box -->
+        <div class="summary-box">
+            <h3>Monthly Summary</h3>
+            <ul>
+                <li><strong>✔ Present:</strong> {{ status_count['Present'] }}</li>
+                <li><strong>❌ Absent:</strong> {{ status_count['Absent'] }}</li>
+                <li><strong>🌴 Leave:</strong> {{ status_count['Leave'] }}</li>
+                <li><strong>❓ No Data:</strong> {{ status_count['No-data'] }}</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

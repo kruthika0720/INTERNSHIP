@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name ="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Reimbursement</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            color: #333;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        .section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .section label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+            color: #444;
+        }
+
+        .section input,
+        .section select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fafafa;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #f0f0f0;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .actions {
+            margin-top: 25px;
+            text-align: right;
+        }
+
+        .actions button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 10px 18px;
+            margin-left: 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .actions button[type="reset"] {
+            background-color: #6c757d;
+        }
+
+        .actions button:hover {
+            opacity: 0.9;
+        }
+
+        .view-section {
+            margin-top: 40px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+
+        .view-section p {
+            margin: 0 0 10px 0;
+            font-weight: bold;
+        }
+
+        .view-section a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .view-section a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Vehicle Reimbursement</h2>
+        <form action="/submit-vehicle" method="post" enctype="multipart/form-data">
+            <div class="section">
+                <label for="tm_name">TM Name:</label>
+                <input type="text" id="tm_name" name="tm_name" placeholder="Enter TM Name" required>
+
+                <label for="mobile">Mobile Number:</label>
+                <input type="text" id="mobile" name="mobile" placeholder="Enter Mobile Number" required>
+
+                <label for="designation">Designation:</label>
+                <input type="text" id="designation" name="designation" placeholder="Enter Designation" required>
+
+                <label for="email">Email ID:</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email ID" required>
+
+                <label for="grade">Grade:</label>
+                <input type="text" id="grade" name="grade" placeholder="Enter Grade" required>
+
+                <label for="vehicle">Type of Vehicle:</label>
+                <input type="text" id="vehicle" name="vehicle" placeholder="Enter Vehicle Type" required>
+
+                <label for="monthly_balance">Monthly Reducing Balance:</label>
+                <input type="number" id="monthly_balance" name="monthly_balance" placeholder="e.g. 6000" required>
+
+                <label for="declared_value">Declared Value (Monthly / PA):</label>
+                <input type="text" id="declared_value" name="declared_value" placeholder="e.g. 5000 / 60000" required>
+            </div>
+
+            <h3>Bill Details</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>SL NO</th>
+                        <th>Bill Name</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Attachment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <select id="bill_name" name="bill_name" required title="Select Bill Type">
+                                <option value="">-- Select Bill Type --</option>
+                                <option value="Toll Charges">TOLL CHARGES</option>
+                                <option value="Fuel Bill">FUEL BILL</option>
+                                <option value="Parking Bill">PARKING BILL</option>
+                                <option value="Maintenance Bill">MAINTENANCE BILL</option>
+                                <option value="Driver Salary">DRIVER SALARY</option>
+                                <option value="Others">OTHERS</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" id="amount" name="amount" placeholder="e.g. 70" required>
+                        </td>
+                        <td>
+                            <input type="date" id="date" name="date" title="Select date" required>
+                        </td>
+                        <td>
+                            <input type="file" id="attachment" name="attachment" accept=".pdf,.jpg,.jpeg,.png" title="Upload bill attachment" required>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="actions">
+                <button type="submit" title="Submit the reimbursement form">Submit</button>
+                <button type="reset" title="Reset the form">Cancel</button>
+            </div>
+        </form>
+
+        <div class="view-section">
+            <p><strong>View Submitted Bill:</strong></p>
+            <a href="/view-submitted" target="_blank">Click here to view uploaded PDF</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Bill</title>
+</head>
+<body>
+    <h2>Submit a Vehicle Reimbursement Bill (PDF)</h2>
+    <form method="POST" action="/submit_bill" enctype="multipart/form-data">
+        <label for="bill_file">Select PDF File:</label><br>
+        <input type="file" name="bill_file" id="bill_file" accept="application/pdf" required
+               title="Upload your bill in PDF format" placeholder="Choose a PDF file">
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

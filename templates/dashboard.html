@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Employee Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-body">
+
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="profile-section">
+      <form action="{{ url_for('upload_profile_pic') }}" method="POST" enctype="multipart/form-data">
+        <label for="profileUpload">
+          <img src="{{ url_for('static', filename=profile_pic_filename) }}" alt="Profile Picture" class="profile-pic" />
+        </label>
+        <input type="file" name="profile_pic" id="profileUpload" class="hidden-input" accept="image/*" onchange="this.form.submit()">
+      </form>
+      <h3>{{ emp_id }}</h3>
+    </div>    
+    <ul class="nav-menu">
+      <li><a href="{{ url_for('profile') }}">Profile</a></li>
+
+      <!-- Expandable Payslips -->
+      <li><a href="#" onclick="togglePayslipSection()">Salary slips ▾</a></li>
+      <li><a href="{{ url_for('vehicle_reimbursement') }}">Vehicle Reimbursement</a></li>
+      <li><a href="{{ url_for('attendance') }}">Attendance</a>
+      <li><a href="{{ url_for('change_password') }}">Settings</a></li>
+      <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>Welcome, {{ emp_id }}!</h2>
+
+    <!-- Hidden Payslip Section -->
+    <div class="document-container hidden" id="payslip-section">
+      <!-- Payslip Box -->
+      <div class="document-box payslip-box">
+        <h3>Payslip</h3>
+        <button onclick="showForm('payslip-form')">Download</button>
+        <form id="payslip-form" class="hidden-form" method="POST" action="{{ url_for('download') }}">
+          <label for="payslip-year">Year:</label>
+          <select name="year" id="payslip-year">
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+          <label for="payslip-month">Month:</label>
+          <select name="month" id="payslip-month">
+            <option value="01">Jan</option>
+            <option value="02">Feb</option>
+            <option value="03">Mar</option>
+            <option value="04">Apr</option>
+            <option value="05">May</option>
+            <option value="06">Jun</option>
+            <option value="07">Jul</option>
+            <option value="08">Aug</option>
+            <option value="09">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+          </select>
+          <input type="hidden" name="doc_type" value="payslip">
+          <button type="submit">Confirm</button>
+        </form>
+      </div>
+
+      <!-- Bonus Box -->
+      <div class="document-box bonus-box">
+        <h3>Bonus Slip</h3>
+        <button onclick="showForm('bonus-form')">Download</button>
+        <form id="bonus-form" class="hidden-form" method="POST" action="{{ url_for('download') }}">
+          <label for="bonus-year">Year:</label>
+          <select name="year" id="bonus-year">
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+          <input type="hidden" name="doc_type" value="bonus">
+          <button type="submit">Confirm</button>
+        </form>
+      </div>
+
+      <!-- Form 16 Box -->
+      <div class="document-box form16-box">
+        <h3>Form 16</h3>
+        <button onclick="showForm('form16-form')">Download</button>
+        <form id="form16-form" class="hidden-form" method="POST" action="{{ url_for('download') }}">
+          <label for="form16-year">Year:</label>
+          <select name="year" id="form16-year">
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </select>
+          <input type="hidden" name="doc_type" value="form16">
+          <button type="submit">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showForm(formId) {
+    const form = document.getElementById(formId);
+    form.classList.toggle('show');
+  }
+
+  function togglePayslipSection() {
+    const section = document.getElementById('payslip-section');
+    section.classList.toggle('hidden');
+  }
+</script>
+
+</body>
+</html>
